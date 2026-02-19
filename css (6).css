@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>EquipWise — Рекомендації</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/page3/css.css">
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="logo">EquipWise</div>
+      <nav>
+        <a href="/">Головна</a>
+        <a href="/equipment">Обладнання</a>
+        <a class="active" href="/analytics">Аналітика</a>
+        <a href="/about">Про сервіс</a>
+        <a href="#">Звіти</a>
+        <a href="#">Налаштування</a>
+      </nav>
+      <a href="#" class="profile-icon">
+          <img src="/pictures/profile.png" alt="Профіль">
+      </a>
+    </aside>
+
+    <main style="overflow-y: auto;">
+      {% if equipments %}
+        {% for equipment in equipments %}
+          <div class="card">
+            <h2>Рекомендації для {{ equipment.name }}</h2>
+            <hr>
+            <div class="section">
+              <div class="label">Тип: {{ equipment.type }}</div>
+              <p>Відділ: {{ equipment.department }}</p>
+              <p>Статус: {{ equipment.status }}</p>
+            </div>
+            <hr>
+            <div class="section">
+              <div class="label">Навантаження:</div>
+              <p>Поточне: {{ equipment.current_load }} / {{ equipment.max_capacity }}</p>
+              <p>Відсоток навантаження: {{ equipment.load_percent|round }}%</p>
+              {% if equipment.load_status == "Перевантажений" %}
+                <p style="color: red;">⚠️ {{ equipment.load_status }}!</p>
+              {% elif equipment.load_status == "Недовантажений" %}
+                <p style="color: orange;">⚠️ {{ equipment.load_status }}!</p>
+              {% else %}
+                <p style="color: green;">✅ {{ equipment.load_status }}</p>
+              {% endif %}
+            </div>
+            <hr>
+            <div class="section">
+              <div class="label">Рекомендації:</div>
+              {% if equipment.load_status == "Перевантажений" %}
+                <p>Перенести частину навантаження на інше обладнання</p>
+                <p>Ризик простою системи</p>
+              {% elif equipment.load_status == "Недовантажений" %}
+                <p>Збільшити навантаження для ефективного використання</p>
+                <p>Можлива економія ~ ${{ (equipment.purchase_cost * 0.1)|round }} на рік</p>
+              {% else %}
+                <p>Підтримувати поточний рівень навантаження</p>
+                <p>Оптимальне використання ресурсів</p>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="card">
+          <h2>Немає даних про обладнання</h2>
+          <p>Додайте обладнання для отримання рекомендацій</p>
+        </div>
+      {% endif %}
+    </main>
+  </div>
+</body>
+</html>

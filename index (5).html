@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>EquipWise — Обладнання</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/page2/css.css">
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="logo">EquipWise</div>
+      <nav>
+        <a href="/">Головна</a>
+        <a class="active" href="/equipment">Обладнання</a>
+        <a href="/analytics">Аналітика</a>
+        <a href="/about">Про сервіс</a>
+        <a href="#">Звіти</a>
+        <a href="#">Налаштування</a>
+      </nav>
+      <a href="#" class="profile-icon">
+          <img src="/pictures/profile.png" alt="Профіль">
+      </a>
+    </aside>
+
+    <main style="overflow-y: auto;">
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Назва</th>
+              <th>Тип</th>
+              <th>Потужність</th>
+              <th>Використання</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if equipments %}
+              {% for equipment in equipments %}
+                <tr>
+                  <td>{{ equipment.name }}</td>
+                  <td>{{ equipment.type }}</td>
+                  <td>{{ equipment.max_capacity }}</td>
+                  <td>{{ equipment.current_load }}%</td>
+                  <td class="status">
+                    {% if equipment.current_load > 80 %}
+                      <span class="dot red"></span>Перевантажений
+                    {% elif equipment.current_load < 50 %}
+                      <span class="dot blue"></span>Недовантажений
+                    {% else %}
+                      <span class="dot yellow"></span>Використовується
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td colspan="5">Немає даних про обладнання</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>EquipWise</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/page1/css.css">
+</head>
+<body>
+  <div class="app">
+
+    <aside>
+      <div class="logo">EquipWise</div>
+      <nav>
+        <a class="active" href="/">Головна</a>
+        <a href="/equipment">Обладнання</a>
+        <a href="/analytics">Аналітика</a>
+        <a href="/about">Про сервіс</a>
+        <a href="#">Звіти</a>
+        <a href="#">Налаштування</a>
+      </nav>
+      <a href="#" class="profile-icon">
+          <img src="/pictures/profile.png" alt="Профіль">
+      </a>
+    </aside>
+
+    <main style="overflow-y: auto;">
+      {% if equipments %}
+        <div class="card">
+          <p>Обладнання: {{ equipments|length }} одиниць</p>
+          <hr>
+          {% set total_load = equipments|sum(attribute='current_load') %}
+          {% set total_capacity = equipments|sum(attribute='max_capacity') %}
+          {% set avg_load = (total_load / total_capacity * 100)|round(1) if total_capacity > 0 else 0 %}
+          <p>Середнє навантаження: {{ avg_load }}%</p>
+          <hr>
+          <div class="stats">
+          {% set efficient = equipments|selectattr('current_load', '>', 50)|selectattr('current_load', '<=', 80)|list %}
+          {% set underloaded = equipments|selectattr('current_load', '<', 50)|list %}
+          {% set overloaded = equipments|selectattr('current_load', '>', 80)|list %}
+            <div class="stat"><span>Ефективно</span><strong>{{ efficient|length }}</strong></div>
+            <div class="stat"><span>Недовантажено</span><strong>{{ underloaded|length }}</strong></div>
+            <div class="stat"><span>Перевантажено</span><strong>{{ overloaded|length }}</strong></div>
+          </div>
+          <hr>
+        </div>
+
+        {% if overloaded %}
+          <div class="card">
+            <h2>Ключові проблеми:</h2>
+            {% for equipment in overloaded %}
+              <p>{{ equipment.name }} перевантажений ({{ equipment.current_load }}%)</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if underloaded %}
+          <div class="card">
+            <h2>Недовантажене обладнання:</h2>
+            {% for equipment in underloaded %}
+              <p>{{ equipment.name }} використовується лише на {{ equipment.current_load }}%</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if overloaded and underloaded %}
+          <div class="card">
+            <h2>Рекомендація дня:</h2>
+            <p>Можлива економія при перерозподілі навантаження між перевантаженим та недовантаженим обладнанням</p>
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="card">
+          <h2>Немає даних про обладнання</h2>
+          <p>Додайте обладнання для аналізу</p>
+        </div>
+      {% endif %}
+    </main>
+  </div>
+</body>
+</html>

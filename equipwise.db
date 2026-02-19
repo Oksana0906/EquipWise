@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>EquipWise — Про сервіс</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/page3/css.css">
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="logo">EquipWise</div>
+      <nav>
+        <a href="/">Головна</a>
+        <a href="/equipment">Обладнання</a>
+        <a href="/analytics">Аналітика</a>
+        <a class="active" href="/about">Про сервіс</a>
+        <a href="#">Звіти</a>
+        <a href="#">Налаштування</a>
+      </nav>
+      <a href="#" class="profile-icon">
+          <img src="/pictures/profile.png" alt="Профіль">
+      </a>
+    </aside>
+
+    <main style="overflow-y: auto;">
+      <div class="card">
+        <h2>Про сервіс EquipWise</h2>
+        <hr>
+        <div class="section">
+          <div class="label">Мета</div>
+          <p>EquipWise — це система обліку обладнання, яка допомагає компаніям ефективно керувати своїм технічним майном.</p>
+        </div>
+        <hr>
+        <div class="section">
+          <div class="label">Функції</div>
+          <ul>
+            <li>Облік обладнання за типами та відділами</li>
+            <li>Контроль навантаження та продуктивності</li>
+            <li>Аналітика використання ресурсів</li>
+            <li>Рекомендації щодо оптимізації</li>
+          </ul>
+        </div>
+        <hr>
+        <div class="section">
+          <div class="label">Технології</div>
+          <p>FastAPI, Jinja2, SQLAlchemy, SQLite</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
